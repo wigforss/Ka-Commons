@@ -1,0 +1,8 @@
+= Ka-Commons = 
+'''ka-commons''' is a collection of common classes used by other ka projects. The aim to keep down 
+the dependencies to a minimum.
+
+* Reflection utilities
+* String utilities
+
+
