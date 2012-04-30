@@ -1,4 +1,4 @@
-package org.kasource.commons.reflection.filter.fields;
+package org.kasource.commons.reflection;
 
 import static org.junit.Assert.assertTrue;
 
@@ -8,7 +8,20 @@ import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kasource.commons.reflection.FieldFilterBuilder;
 import org.kasource.commons.reflection.filter.classes.NameClassFilter;
+import org.kasource.commons.reflection.filter.fields.AnnotatedFieldFilter;
+import org.kasource.commons.reflection.filter.fields.AssignableFromFieldFilter;
+import org.kasource.commons.reflection.filter.fields.AssignableToFieldFilter;
+import org.kasource.commons.reflection.filter.fields.FieldClassFieldFilter;
+import org.kasource.commons.reflection.filter.fields.FieldFilter;
+import org.kasource.commons.reflection.filter.fields.FieldFilterList;
+import org.kasource.commons.reflection.filter.fields.IsEnumConstantFieldFilter;
+import org.kasource.commons.reflection.filter.fields.MetaAnnotatedFieldFilter;
+import org.kasource.commons.reflection.filter.fields.ModifierFieldFilter;
+import org.kasource.commons.reflection.filter.fields.NameFieldFilter;
+import org.kasource.commons.reflection.filter.fields.NegationFieldFilter;
+import org.kasource.commons.reflection.filter.fields.OrFieldFilter;
 import org.unitils.UnitilsJUnit4TestClassRunner;
 import org.unitils.inject.annotation.TestedObject;
 
@@ -27,6 +40,12 @@ public class FieldFilterBuilderTest {
     public void extendsType() {
         FieldFilter filter = builder.extendsType(List.class).build();
         assertTrue(filter instanceof AssignableFromFieldFilter);
+    }
+    
+    @Test
+    public void superType() {
+        FieldFilter filter = builder.superType(List.class).build();
+        assertTrue(filter instanceof AssignableToFieldFilter);
     }
     
     @Test

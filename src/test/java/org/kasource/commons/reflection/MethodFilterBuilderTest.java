@@ -1,4 +1,4 @@
-package org.kasource.commons.reflection.filter.methods;
+package org.kasource.commons.reflection;
 
 import static org.junit.Assert.assertTrue;
 
@@ -8,7 +8,23 @@ import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kasource.commons.reflection.MethodFilterBuilder;
 import org.kasource.commons.reflection.filter.classes.NameClassFilter;
+import org.kasource.commons.reflection.filter.methods.AnnotatedMethodFilter;
+import org.kasource.commons.reflection.filter.methods.AssignableFromMethodFilter;
+import org.kasource.commons.reflection.filter.methods.AssignableToMethodFilter;
+import org.kasource.commons.reflection.filter.methods.MetaAnnotatedMethodFilter;
+import org.kasource.commons.reflection.filter.methods.MethodFilter;
+import org.kasource.commons.reflection.filter.methods.MethodFilterList;
+import org.kasource.commons.reflection.filter.methods.ModifierMethodFilter;
+import org.kasource.commons.reflection.filter.methods.NameMethodFilter;
+import org.kasource.commons.reflection.filter.methods.NegationMethodFilter;
+import org.kasource.commons.reflection.filter.methods.NumberOfParametersMethodFilter;
+import org.kasource.commons.reflection.filter.methods.OrMethodFilter;
+import org.kasource.commons.reflection.filter.methods.ParameterClassMethodFilter;
+import org.kasource.commons.reflection.filter.methods.ReturnTypeAssignableFromMethodFilter;
+import org.kasource.commons.reflection.filter.methods.ReturnTypeMethodFilter;
+import org.kasource.commons.reflection.filter.methods.SignatureMethodFilter;
 import org.unitils.UnitilsJUnit4TestClassRunner;
 import org.unitils.inject.annotation.TestedObject;
 
@@ -128,19 +144,30 @@ public class MethodFilterBuilderTest {
     }
 
     @Test
-    public void parametersAssignableFrom() {
+    public void parametersExtendsType() {
         MethodFilter filter = builder.parametersExtendsType(List.class).build();
         assertTrue(filter instanceof AssignableFromMethodFilter);
     }
+    
+    @Test
+    public void parametersSuperType() {
+        MethodFilter filter = builder.parametersSuperType(List.class).build();
+        assertTrue(filter instanceof AssignableToMethodFilter);
+    }
 
     @Test
-    public void parameterAssignableFrom() {
+    public void parameterExtendsType() {
         MethodFilter filter = builder.parameterExtendsType(0, List.class).build();
         assertTrue(filter instanceof AssignableFromMethodFilter);
     }
 
-   
+    @Test
+    public void parameterSuperType() {
+        MethodFilter filter = builder.parameterSuperType(0, List.class).build();
+        assertTrue(filter instanceof AssignableToMethodFilter);
+    }
 
+    
     @Test
     public void parameterTypeFilter() {
         MethodFilter filter = builder.parameterTypeFilter(0, new NameClassFilter("Abstract.*")).build();

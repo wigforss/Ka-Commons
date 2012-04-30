@@ -40,11 +40,13 @@ public class AnnotatedMethodFilterTest {
     
     private static class MyClass {
         
+        @SuppressWarnings("unused")
         @MyAnnotation
         public void annotated() {
             
         }
         
+        @SuppressWarnings("unused")
         public void notAnnotated() {
             
         }

@@ -1,4 +1,4 @@
-package org.kasource.commons.reflection.filter.methods;
+package org.kasource.commons.reflection;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Modifier;
@@ -6,6 +6,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kasource.commons.reflection.filter.classes.ClassFilter;
+import org.kasource.commons.reflection.filter.methods.AnnotatedMethodFilter;
+import org.kasource.commons.reflection.filter.methods.AssignableFromMethodFilter;
+import org.kasource.commons.reflection.filter.methods.AssignableToMethodFilter;
+import org.kasource.commons.reflection.filter.methods.MetaAnnotatedMethodFilter;
+import org.kasource.commons.reflection.filter.methods.MethodFilter;
+import org.kasource.commons.reflection.filter.methods.MethodFilterList;
+import org.kasource.commons.reflection.filter.methods.ModifierMethodFilter;
+import org.kasource.commons.reflection.filter.methods.NameMethodFilter;
+import org.kasource.commons.reflection.filter.methods.NegationMethodFilter;
+import org.kasource.commons.reflection.filter.methods.NumberOfParametersMethodFilter;
+import org.kasource.commons.reflection.filter.methods.OrMethodFilter;
+import org.kasource.commons.reflection.filter.methods.ParameterClassMethodFilter;
+import org.kasource.commons.reflection.filter.methods.ReturnTypeAssignableFromMethodFilter;
+import org.kasource.commons.reflection.filter.methods.ReturnTypeMethodFilter;
+import org.kasource.commons.reflection.filter.methods.SignatureMethodFilter;
 
 /**
  * Builder for MethodFilters.
@@ -241,7 +256,7 @@ public class MethodFilterBuilder {
     
     /**
      * Adds a filter that allows only methods which parameter types extends the supplied
-     * types in the extendsClass parameter. 
+     * types in the superType parameter. 
      * 
      * Only methods with same number of parameters as the extendsClass parameter will
      * be allowed.   
@@ -250,8 +265,24 @@ public class MethodFilterBuilder {
      * 
      * @return The builder to support method chaining.
      **/
-    public MethodFilterBuilder parametersExtendsType(Class<?>... extendsClass) {
-        add(new AssignableFromMethodFilter(extendsClass));
+    public MethodFilterBuilder parametersExtendsType(Class<?>... superType) {
+        add(new AssignableFromMethodFilter(superType));
+        return this;
+    }
+    
+    /**
+     * Adds a filter that allows only methods which parameter types which is a base class of the supplied
+     * types in the baseType parameter. 
+     * 
+     * Only methods with same number of parameters as the extendsClass parameter will
+     * be allowed.   
+     * 
+     * @param extendsClass Varargs classes that the parameters types should extend, may be empty.
+     * 
+     * @return The builder to support method chaining.
+     **/
+    public MethodFilterBuilder parametersSuperType(Class<?>... baseType) {
+        add(new AssignableToMethodFilter(baseType));
         return this;
     }
     
@@ -262,11 +293,28 @@ public class MethodFilterBuilder {
      * If a method does not have a parameter at parameterIndex (too few parameters) its not allowed. 
      * 
      * @param parameterIndex    The index of the parameter to inspect.
-     * @param extendsClass      The class the parameter should extend.
-     * @return
+     * @param superType         The class the parameter should extend.
+     * 
+     * @return The builder to support method chaining.
      **/
-    public MethodFilterBuilder parameterExtendsType(int parameterIndex, Class<?> extendsClass) {
-        add(new AssignableFromMethodFilter(parameterIndex, extendsClass));
+    public MethodFilterBuilder parameterExtendsType(int parameterIndex, Class<?> superType) {
+        add(new AssignableFromMethodFilter(parameterIndex, superType));
+        return this;
+    }
+    
+    /**
+     * Adds a filter for methods that has a parameter which is a base class to the supplied type in the
+     * baseType parameter.
+     * 
+     * If a method does not have a parameter at parameterIndex (too few parameters) its not allowed. 
+     * 
+     * @param parameterIndex    The index of the parameter to inspect.
+     * @param baseType          The class the parameter should have a base class.
+     * 
+     * @return The builder to support method chaining.
+     **/
+    public MethodFilterBuilder parameterSuperType(int parameterIndex, Class<?> baseType) {
+        add(new AssignableToMethodFilter(parameterIndex, baseType));
         return this;
     }
     
@@ -284,7 +332,8 @@ public class MethodFilterBuilder {
      * 
      * @param parameterIndex    The index of the parameter to inspect.
      * @param filter            The filter which the parameter type should pass.
-     * @return
+     * 
+     * @return The builder to support method chaining.
      **/
     public MethodFilterBuilder parameterTypeFilter(int parameterIndex, ClassFilter filter) {
         add(new ParameterClassMethodFilter(parameterIndex, filter));

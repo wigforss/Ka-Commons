@@ -1,9 +1,29 @@
-package org.kasource.commons.reflection.filter.classes;
+package org.kasource.commons.reflection;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.kasource.commons.reflection.filter.classes.AnnotationClassFilter;
+import org.kasource.commons.reflection.filter.classes.AssignableFromClassFilter;
+import org.kasource.commons.reflection.filter.classes.AssignableToClassFilter;
+import org.kasource.commons.reflection.filter.classes.ClassFilter;
+import org.kasource.commons.reflection.filter.classes.ClassFilterList;
+import org.kasource.commons.reflection.filter.classes.IsAnnotationClassFilter;
+import org.kasource.commons.reflection.filter.classes.IsAnonymousClassFilter;
+import org.kasource.commons.reflection.filter.classes.IsArrayClassFilter;
+import org.kasource.commons.reflection.filter.classes.IsEnumClassFilter;
+import org.kasource.commons.reflection.filter.classes.IsInterfaceClassFilter;
+import org.kasource.commons.reflection.filter.classes.IsLocalClassFilter;
+import org.kasource.commons.reflection.filter.classes.IsMemberClassFilter;
+import org.kasource.commons.reflection.filter.classes.IsPrimitiveClassFilter;
+import org.kasource.commons.reflection.filter.classes.IsSyntheticClassFilter;
+import org.kasource.commons.reflection.filter.classes.MetaAnnotatedClassFilter;
+import org.kasource.commons.reflection.filter.classes.ModifierClassFilter;
+import org.kasource.commons.reflection.filter.classes.NameClassFilter;
+import org.kasource.commons.reflection.filter.classes.NegationClassFilter;
+import org.kasource.commons.reflection.filter.classes.OrClassFilter;
 
 public class ClassFilterBuilder {
 
@@ -84,8 +104,13 @@ public class ClassFilterBuilder {
         return this;
     }
     
-    public ClassFilterBuilder extendsType(Class<?> assignableFromClass) {
-        add(new AssignableFromClassFilter(assignableFromClass));
+    public ClassFilterBuilder extendsType(Class<?> superType) {
+        add(new AssignableFromClassFilter(superType));
+        return this;
+    }
+    
+    public ClassFilterBuilder superType(Class<?> baseType) {
+        add(new AssignableToClassFilter(baseType));
         return this;
     }
     

@@ -1,4 +1,4 @@
-package org.kasource.commons.reflection.filter.classes;
+package org.kasource.commons.reflection;
 
 import static org.junit.Assert.assertTrue;
 
@@ -7,10 +7,11 @@ import java.lang.reflect.Modifier;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kasource.commons.reflection.ClassFilterBuilder;
 import org.kasource.commons.reflection.filter.classes.AnnotationClassFilter;
 import org.kasource.commons.reflection.filter.classes.AssignableFromClassFilter;
+import org.kasource.commons.reflection.filter.classes.AssignableToClassFilter;
 import org.kasource.commons.reflection.filter.classes.ClassFilter;
-import org.kasource.commons.reflection.filter.classes.ClassFilterBuilder;
 import org.kasource.commons.reflection.filter.classes.ClassFilterList;
 import org.kasource.commons.reflection.filter.classes.IsAnnotationClassFilter;
 import org.kasource.commons.reflection.filter.classes.IsAnonymousClassFilter;
@@ -21,6 +22,7 @@ import org.kasource.commons.reflection.filter.classes.IsLocalClassFilter;
 import org.kasource.commons.reflection.filter.classes.IsMemberClassFilter;
 import org.kasource.commons.reflection.filter.classes.IsPrimitiveClassFilter;
 import org.kasource.commons.reflection.filter.classes.IsSyntheticClassFilter;
+import org.kasource.commons.reflection.filter.classes.MetaAnnotatedClassFilter;
 import org.kasource.commons.reflection.filter.classes.ModifierClassFilter;
 import org.kasource.commons.reflection.filter.classes.NameClassFilter;
 import org.kasource.commons.reflection.filter.classes.NegationClassFilter;
@@ -143,6 +145,12 @@ public class ClassFilterBuilderTest {
     public void extendsType() {
         ClassFilter filter = builder.extendsType(List.class).build();
         assertTrue(filter instanceof AssignableFromClassFilter);
+    }
+    
+    @Test
+    public void superType() {
+        ClassFilter filter = builder.superType(List.class).build();
+        assertTrue(filter instanceof AssignableToClassFilter);
     }
     
     @Test

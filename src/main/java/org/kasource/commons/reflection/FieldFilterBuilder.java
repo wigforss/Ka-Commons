@@ -1,4 +1,4 @@
-package org.kasource.commons.reflection.filter.fields;
+package org.kasource.commons.reflection;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Modifier;
@@ -6,6 +6,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kasource.commons.reflection.filter.classes.ClassFilter;
+import org.kasource.commons.reflection.filter.fields.AnnotatedFieldFilter;
+import org.kasource.commons.reflection.filter.fields.AssignableFromFieldFilter;
+import org.kasource.commons.reflection.filter.fields.AssignableToFieldFilter;
+import org.kasource.commons.reflection.filter.fields.FieldClassFieldFilter;
+import org.kasource.commons.reflection.filter.fields.FieldFilter;
+import org.kasource.commons.reflection.filter.fields.FieldFilterList;
+import org.kasource.commons.reflection.filter.fields.IsEnumConstantFieldFilter;
+import org.kasource.commons.reflection.filter.fields.MetaAnnotatedFieldFilter;
+import org.kasource.commons.reflection.filter.fields.ModifierFieldFilter;
+import org.kasource.commons.reflection.filter.fields.NameFieldFilter;
+import org.kasource.commons.reflection.filter.fields.NegationFieldFilter;
+import org.kasource.commons.reflection.filter.fields.OrFieldFilter;
 
 
 public class FieldFilterBuilder {
@@ -56,11 +68,16 @@ public class FieldFilterBuilder {
         return this;
     }
     
-    public FieldFilterBuilder extendsType(Class<?> assignbleFromClass) {
-        add(new AssignableFromFieldFilter(assignbleFromClass));
+    public FieldFilterBuilder extendsType(Class<?> superType) {
+        add(new AssignableFromFieldFilter(superType));
         return this;
     }
     
+    
+    public FieldFilterBuilder superType(Class<?> baseType) {
+        add(new AssignableToFieldFilter(baseType));
+        return this;
+    }
     
     public FieldFilterBuilder typeFilter(ClassFilter filter) {
         add(new FieldClassFieldFilter(filter));
