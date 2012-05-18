@@ -2,7 +2,9 @@ package org.kasource.commons.util.reflection;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -109,14 +111,19 @@ public class AnnotationsUtils {
      * @param annotations   Method annotations to find methods for
      * @return Methods that is annotated with the supplied annotation set.
      **/
-    public static Map<Class<? extends Annotation>, Method> findAnnotatedMethods(Class<?> clazz, Set<Class<? extends Annotation>> annotations) {
+    public static Map<Class<? extends Annotation>, Set<Method>> findAnnotatedMethods(Class<?> clazz, Collection<Class<? extends Annotation>> annotations) {
         
-        Map<Class<? extends Annotation>, Method> annotatedMethods = new HashMap<Class<? extends Annotation>, Method>();
+        Map<Class<? extends Annotation>, Set<Method>> annotatedMethods = new HashMap<Class<? extends Annotation>, Set<Method>>();
         
         for (Class<? extends Annotation> annotation : annotations) { 
             Set<Method> methods = MethodUtils.getMethods(clazz, new MethodFilterBuilder().annotated(annotation).build());
             for(Method method : methods) {
-                annotatedMethods.put(annotation, method);
+                Set<Method> methodSet = annotatedMethods.get(annotation);
+                if(methodSet == null) {
+                    methodSet = new HashSet<Method>();
+                    annotatedMethods.put(annotation, methodSet);
+                }
+                methodSet.add(method);
             }
         }
         return annotatedMethods;

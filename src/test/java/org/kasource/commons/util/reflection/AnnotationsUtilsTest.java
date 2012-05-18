@@ -8,8 +8,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -73,11 +75,14 @@ public class AnnotationsUtilsTest {
     
     @Test 
     public void findAnnotatedMethods() throws SecurityException, NoSuchMethodException {
-        Set<Class<? extends Annotation>> annotations = new HashSet<Class<? extends Annotation>>();
-        annotations.add(RuntimeMethodAnnotation.class);
-        Map<Class<? extends Annotation>, Method> methodMap = AnnotationsUtils.findAnnotatedMethods(Foo.class, annotations);
-        assertEquals(Foo.class.getMethod("run"), methodMap.get(RuntimeMethodAnnotation.class));
+       List<Class<? extends Annotation>> annotations = new ArrayList<Class<? extends Annotation>>();
+       annotations.add(RuntimeMethodAnnotation.class);
+        Map<Class<? extends Annotation>, Set<Method>> methodMap = AnnotationsUtils.findAnnotatedMethods(Foo.class, annotations);
+        assertEquals(Foo.class.getMethod("run"), methodMap.get(RuntimeMethodAnnotation.class).iterator().next());
     }
+    
+    
+   
     
     @Target(ElementType.TYPE)
     @Retention(RetentionPolicy.RUNTIME)
