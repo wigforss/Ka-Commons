@@ -7,7 +7,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kasource.commons</groupId>
 	<artifactId>ka-commons</artifactId>
-	<version>1.0</version>
+	<version>1.1-SNAPSHOT</version>
 	<name>Ka Commons</name>
 	<url>http://kasource.org</url>
 	
