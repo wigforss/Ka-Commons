@@ -40,6 +40,10 @@ import org.kasource.commons.reflection.filter.methods.SignatureMethodFilter;
  * @author rikardwi
  **/
 public class MethodFilterBuilder {
+    public static final MethodFilter FILTER_GETTERS = new MethodFilterBuilder().name("get[A-Z].*").or().name("is[A-Z].*").or().name("has[A-Z]*").isPublic().not().returnType(Void.TYPE).numberOfParameters(0).build();
+    public static final MethodFilter FILTER_SETTERS = new MethodFilterBuilder().name("set[A-Z].*").isPublic().returnType(Void.TYPE).numberOfParameters(1).build();
+    
+    
     private enum Operator {NONE, NOT, OR};
     private List<MethodFilter> filters = new ArrayList<MethodFilter>();
     private Operator operator = Operator.NONE;
