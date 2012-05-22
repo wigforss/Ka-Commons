@@ -1,0 +1,1 @@
+{"name":"Ka-commons","body":"= Ka-Commons = \r\n'''ka-commons''' is a collection of common classes used by other ka projects. The aim to keep down \r\nthe dependencies to a minimum.\r\n\r\n* Reflection utilities\r\n* String utilities\r\n\r\n\r\n","tagline":"","google":"","note":"Don't delete this file! It's used internally to help with page regeneration."}
