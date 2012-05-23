@@ -19,12 +19,32 @@ import org.kasource.commons.reflection.filter.fields.NameFieldFilter;
 import org.kasource.commons.reflection.filter.fields.NegationFieldFilter;
 import org.kasource.commons.reflection.filter.fields.OrFieldFilter;
 
-
+/**
+ * Builder for FieldFilter.
+ * <p>
+ * This class offers functionality for building more complex
+ * filter compositions in an expressive manner. The filters added will be
+ * evaluated with AND operator. This builder also allows both NOT and OR as
+ * additional operators.
+ * <p>
+ * Examples:
+ * {@code
+ *  FieldFilter publicResourceInjectionTargets = new FieldFilterBuilder().isPublic().annotated(javax.annotation.Resource.class).build();
+ *  
+ * }
+ * 
+ * @author rikardwi
+ **/
 public class FieldFilterBuilder {
     private enum Operator {NONE, NOT, OR};
     private List<FieldFilter> filters = new ArrayList<FieldFilter>();
     private Operator operator = Operator.NONE;
     
+    /**
+     * Adds a filter and applies the current operator.
+     * 
+     * @param filter Filter to add.
+     **/
     private void add(FieldFilter filter) {
         switch(operator) {
         case NOT:
@@ -42,16 +62,33 @@ public class FieldFilterBuilder {
         }
     }
     
+    /**
+     * Sets the current operator to NOT.
+     * 
+     * @return  This builder to support method chaining.
+     **/
     public FieldFilterBuilder not() {
         operator = Operator.NOT;
         return this;
     }
     
+    /**
+     * Sets the current operator to OR.
+     * 
+     * @return  This builder to support method chaining.
+     **/
     public FieldFilterBuilder or() {
         operator = Operator.OR;
         return this;
     }
     
+    /**
+     * Filter for fields which name matches to supplied regular expression.
+     * 
+     * @param nameRegExp Regular expression to match field name with.
+     * 
+     * @return  This builder to support method chaining.
+     **/
     public FieldFilterBuilder name(String nameRegExp) {
         add(new NameFieldFilter(nameRegExp));
         return this;
