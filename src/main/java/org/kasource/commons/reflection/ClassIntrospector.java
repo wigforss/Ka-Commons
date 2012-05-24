@@ -48,6 +48,7 @@ public class ClassIntrospector<T> {
         this.target = target;
     }
     
+    
     /**
      * Returns the named method from class <i>clazz</i>.
      * 
