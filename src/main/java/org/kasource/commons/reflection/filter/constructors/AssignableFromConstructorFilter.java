@@ -2,7 +2,13 @@ package org.kasource.commons.reflection.filter.constructors;
 
 import java.lang.reflect.Constructor;
 
-
+/**
+ * Filters constructors which parameter types is assignable from a specific class.
+ * <p>
+ * Note: It's not recommended to use this class directly, instead use the org.kasource.commons.reflection.ConstructorFilterBuilder.
+ *  
+ * @author rikardwi
+ **/
 public class AssignableFromConstructorFilter implements ConstructorFilter {
 
     private int paramterIndex;

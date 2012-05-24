@@ -3,6 +3,14 @@ package org.kasource.commons.reflection.filter.constructors;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 
+/**
+* Filters constructors which is annotated with an annotation which is annotated with 
+* a specific meta annotation.
+* <p>
+* Note: It's not recommended to use this class directly, instead use the org.kasource.commons.reflection.ConstructorFilterBuilder. 
+* 
+* @author rikardwi
+**/
 public class MetaAnnotatedConstructorFilter implements ConstructorFilter {
 
     private Class<? extends Annotation> inheritedAnnotation;

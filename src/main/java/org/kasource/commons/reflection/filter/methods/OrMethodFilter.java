@@ -2,6 +2,13 @@ package org.kasource.commons.reflection.filter.methods;
 
 import java.lang.reflect.Method;
 
+/**
+ * Filters methods by evaluating two other method filters by OR:ing their result.
+ * <p>
+ * Note: It's not recommended to use this class directly, instead use the org.kasource.commons.reflection.MethodFilterBuilder.
+ * 
+ * @author rikardwi
+ **/
 public class OrMethodFilter implements MethodFilter {
 
     private MethodFilter left;

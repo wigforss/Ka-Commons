@@ -2,6 +2,13 @@ package org.kasource.commons.reflection.filter.methods;
 
 import java.lang.reflect.Method;
 
+/**
+ * Filters methods which parameter types is assignable from a specific class.
+ * <p>
+ * Note: It's not recommended to use this class directly, instead use the org.kasource.commons.reflection.MethodFilterBuilder.
+ *  
+ * @author rikardwi
+ **/
 public class AssignableFromMethodFilter implements MethodFilter {
 
     private int paramterIndex;

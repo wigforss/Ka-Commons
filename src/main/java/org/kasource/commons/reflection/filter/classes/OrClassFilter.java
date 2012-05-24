@@ -3,6 +3,8 @@ package org.kasource.commons.reflection.filter.classes;
 /**
  * Class filter that evaluates two other class filters (left and right) and 
  * returns the result of OR:ing the result of the left and right filter.
+ * <p>
+ * Note: It's not recommended to use this class directly, instead use the org.kasource.commons.reflection.ClassFilterBuilder.
  * 
  * @author rikardwi
  **/

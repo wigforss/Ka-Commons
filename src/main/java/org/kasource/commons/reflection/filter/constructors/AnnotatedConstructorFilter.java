@@ -5,6 +5,8 @@ import java.lang.reflect.Constructor;
 
 /**
  * Filters constructors that is annotated with a specific annotation.
+ * <p>
+ * Note: It's not recommended to use this class directly, instead use the org.kasource.commons.reflection.ConstructorFilterBuilder.
  * 
  * @author rikardwi
  **/

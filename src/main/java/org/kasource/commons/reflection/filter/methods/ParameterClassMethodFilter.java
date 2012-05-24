@@ -4,6 +4,13 @@ import java.lang.reflect.Method;
 
 import org.kasource.commons.reflection.filter.classes.ClassFilter;
 
+/**
+ * Filters methods which parameters types passes a ClassFilter.
+ * <p>
+ * Note: It's not recommended to use this class directly, instead use the org.kasource.commons.reflection.MethodFilterBuilder.
+ * 
+ * @author rikardwi
+ **/
 public class ParameterClassMethodFilter implements MethodFilter {
 
     private int parameterIndex;

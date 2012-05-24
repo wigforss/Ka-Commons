@@ -5,6 +5,13 @@ import java.lang.reflect.Constructor;
 
 import org.kasource.commons.reflection.filter.classes.ClassFilter;
 
+/**
+ * Filters constructors which parameters types passes a ClassFilter.
+ * <p>
+ * Note: It's not recommended to use this class directly, instead use the org.kasource.commons.reflection.ConstructorFilterBuilder.
+ * 
+ * @author rikardwi
+ **/
 public class ParameterClassFilterConstructorFilter implements ConstructorFilter {
 
     private int parameterIndex;
