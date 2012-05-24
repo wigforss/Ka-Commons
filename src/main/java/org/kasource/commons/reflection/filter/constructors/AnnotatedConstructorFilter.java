@@ -3,6 +3,11 @@ package org.kasource.commons.reflection.filter.constructors;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 
+/**
+ * Filters constructors that is annotated with a specific annotation.
+ * 
+ * @author rikardwi
+ **/
 public class AnnotatedConstructorFilter implements ConstructorFilter {
 
     private Class<? extends Annotation> annotation;

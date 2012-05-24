@@ -94,85 +94,183 @@ public class FieldFilterBuilder {
         return this;
     }
     
+    /**
+     * Filter fields that is annotated with the supplied annotation.
+     * 
+     * @param annotation The annotation to be present on filtered fields.
+     * 
+     * @return This builder to support method chaining.
+     **/
     public FieldFilterBuilder annotated(Class<? extends Annotation> annotation) {
         add(new AnnotatedFieldFilter(annotation));
         return this;
     }
     
-    
+    /**
+     * Adds filter for fields annotated with an annotation which is annotated with the supplied annotation.
+     * 
+     * Think springs stereotype annotations: @Service and @Repository is annotated with @Component. Thus 
+     * I can find any @Component classes (by looking for the meta annotation Component) even though they 
+     * are actually annotated with Service or Repository with a metaAnnotated(org.springframework.stereotype.Component) filter.
+     * 
+     * @param annotation The meta annotation to find.
+     * 
+     * @return This builder to support method chaining.
+     **/
     public FieldFilterBuilder metaAnnotated(Class<? extends Annotation> annotation) {
         add(new MetaAnnotatedFieldFilter(annotation));
         return this;
     }
     
+    /**
+     * Adds filter for fields which type is assignable from a superType.
+     * 
+     * extendsType(java.lang.Number) will be true for fields of type java.lang.Integer, since java.lang.Integer  extends java.lang.Number.
+     * 
+     * @param superType the class any matching classes should extend or implement.
+     * 
+     * @return This builder to support method chaining.
+     **/
     public FieldFilterBuilder extendsType(Class<?> superType) {
         add(new AssignableFromFieldFilter(superType));
         return this;
     }
     
-    
-    public FieldFilterBuilder superType(Class<?> baseType) {
-        add(new AssignableToFieldFilter(baseType));
+    /**
+     * Adds filter for fields which type is assignable to an extendedType.
+     * 
+     * superType(java.lang.Integer) will be true for a fields of type java.lang.Number, since java.lang.Number is a superType of java.lang.Integer. 
+     * 
+     * @param extendedType The class that any matching should be a super class of.
+     * 
+     * @return This builder to support method chaining.
+     **/
+    public FieldFilterBuilder superType(Class<?> extendedType) {
+        add(new AssignableToFieldFilter(extendedType));
         return this;
     }
     
+    /**
+     * Filter fields which type passes the supplied ClassFilter.
+     * 
+     * @param filter The class filter to apply of candidate fields type.
+     * 
+     * @return This builder to support method chaining.
+     */
     public FieldFilterBuilder typeFilter(ClassFilter filter) {
         add(new FieldClassFieldFilter(filter));
         return this;
     }
     
+    /**
+     * Filter fields which are enum constants.
+     * 
+     * @return This builder to support method chaining.
+     */
     public FieldFilterBuilder isEnumConstant() {
         add(new IsEnumConstantFieldFilter());
         return this;
     }
     
+    /**
+     * Filter public fields.
+     * 
+     * @return This builder to support method chaining.
+     */
     public FieldFilterBuilder isPublic() {
         add(new ModifierFieldFilter(Modifier.PUBLIC));
         return this;
     }
     
+    /**
+     * 
+     * @return This builder to support method chaining.
+     */
     public FieldFilterBuilder isProtected() {
         add(new ModifierFieldFilter(Modifier.PROTECTED));
         return this;
     }
     
+    /**
+     * Filter private fields.
+     * 
+     * @return This builder to support method chaining.
+     */
     public FieldFilterBuilder isPrivate() {
         add(new ModifierFieldFilter(Modifier.PRIVATE));
         return this;
     }
     
+    /**
+     * Filter static fields.
+     * 
+     * @return This builder to support method chaining.
+     */
     public FieldFilterBuilder isStatic() {
         add(new ModifierFieldFilter(Modifier.STATIC));
         return this;
     }
     
+    /**
+     * Filter transient fields.
+     * 
+     * @return This builder to support method chaining.
+     */
     public FieldFilterBuilder isTransient() {
         add(new ModifierFieldFilter(Modifier.TRANSIENT));
         return this;
     }
     
+    /**
+     * Filter final fields.
+     * 
+     * @return This builder to support method chaining.
+     */
     public FieldFilterBuilder isFinal() {
         add(new ModifierFieldFilter(Modifier.FINAL));
         return this;
     }
     
+    /**
+     * Filter volatile fields.
+     * 
+     * @return This builder to support method chaining.
+     */
     public FieldFilterBuilder isVolatile() {
         add(new ModifierFieldFilter(Modifier.VOLATILE));
         return this;
     }
     
+    /**
+     * Filter fields with default access.
+     * 
+     * @return This builder to support method chaining.
+     */
     public FieldFilterBuilder isDefault() {
         add(new NegationFieldFilter(new ModifierFieldFilter(Modifier.PUBLIC & Modifier.PROTECTED & Modifier.PRIVATE)));
         return this;
     }
     
+    /**
+     * Filter fields that has the supplied modifiers.
+     * 
+     * @param modifiers Modifiers to match on candidate field.
+     * 
+     * @return This builder to support method chaining.
+     **/
     public FieldFilterBuilder byModifiers(int modifiers) {
         add(new ModifierFieldFilter(modifiers));
         return this;
     }
     
-    
-    public FieldFilter build() {
+    /**
+     * Build and returns a FieldFilter.
+     * 
+     * @return FieldFilter built.
+     * 
+     * @throws IllegalStateException if no filter was added before build() was invoked.
+     **/
+    public FieldFilter build() throws IllegalStateException {
         if (filters.isEmpty()) {
             throw new IllegalStateException("No field filters configured!");
         }
