@@ -1,4 +1,4 @@
-package org.kasource.commons.reflection;
+package org.kasource.commons.reflection.filter;
 
 import static org.junit.Assert.assertTrue;
 
@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kasource.commons.reflection.FieldFilterBuilder;
+import org.kasource.commons.reflection.filter.FieldFilterBuilder;
 import org.kasource.commons.reflection.filter.classes.NameClassFilter;
 import org.kasource.commons.reflection.filter.fields.AnnotatedFieldFilter;
 import org.kasource.commons.reflection.filter.fields.AssignableFromFieldFilter;

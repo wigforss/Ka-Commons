@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.kasource.commons.reflection.MethodFilterBuilder;
+import org.kasource.commons.reflection.filter.MethodFilterBuilder;
 
 /**
  * Utility class for Annotation based introspection of classes.

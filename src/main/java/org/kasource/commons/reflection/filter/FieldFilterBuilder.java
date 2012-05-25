@@ -1,4 +1,4 @@
-package org.kasource.commons.reflection;
+package org.kasource.commons.reflection.filter;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Modifier;

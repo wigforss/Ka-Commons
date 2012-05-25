@@ -15,7 +15,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 
 import org.junit.Test;
-import org.kasource.commons.reflection.MethodFilterBuilder;
+import org.kasource.commons.reflection.filter.MethodFilterBuilder;
 import org.kasource.commons.reflection.filter.methods.AnnotatedMethodFilter;
 import org.kasource.commons.reflection.filter.methods.SignatureMethodFilter;
 import org.kasource.commons.util.reflection.MethodUtils;

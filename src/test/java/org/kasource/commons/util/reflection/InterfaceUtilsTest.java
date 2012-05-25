@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 import java.util.EventListener;
 
 import org.junit.Test;
-import org.kasource.commons.reflection.ClassFilterBuilder;
+import org.kasource.commons.reflection.filter.ClassFilterBuilder;
 import org.kasource.commons.util.reflection.InterfaceUtils;
 
 public class InterfaceUtilsTest {

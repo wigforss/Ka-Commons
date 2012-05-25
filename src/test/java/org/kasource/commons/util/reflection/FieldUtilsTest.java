@@ -6,7 +6,7 @@ import java.util.Set;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
-import org.kasource.commons.reflection.FieldFilterBuilder;
+import org.kasource.commons.reflection.filter.FieldFilterBuilder;
 
 public class FieldUtilsTest {
 

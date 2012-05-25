@@ -1,4 +1,4 @@
-package org.kasource.commons.reflection;
+package org.kasource.commons.reflection.filter;
 
 import static org.junit.Assert.assertTrue;
 
@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kasource.commons.reflection.filter.ConstructorFilterBuilder;
 import org.kasource.commons.reflection.filter.classes.NameClassFilter;
 import org.kasource.commons.reflection.filter.constructors.AnnotatedConstructorFilter;
 import org.kasource.commons.reflection.filter.constructors.AssignableFromConstructorFilter;
