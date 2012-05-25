@@ -35,7 +35,7 @@ import org.kasource.commons.reflection.filter.methods.MethodFilter;
  * 
  * @author rikardwi
  **/
-public class ClassIntrospector<T> {
+public class ClassIntrospector {
 
     private Class<?> target;
     
@@ -44,13 +44,13 @@ public class ClassIntrospector<T> {
      * 
      * @param target The target class to introspect.s
      **/
-    public ClassIntrospector(Class<T> target) {
+    public ClassIntrospector(Class<?> target) {
         this.target = target;
     }
     
     
     /**
-     * Returns the named method from class <i>clazz</i>.
+     * Returns the named method from class <i>clazz</i>, does not throw checked exceptions.
      * 
      * @param clazz
      *            The class to inspect
@@ -243,7 +243,7 @@ public class ClassIntrospector<T> {
      * @return constructors that matches the filter parameter.
      **/
     @SuppressWarnings("unchecked")
-    public Set<Constructor<T>> getConstructors(ConstructorFilter filter) {
+    public <T> Set<Constructor<T>> getConstructors(ConstructorFilter filter, Class<T> ofType) {
         Set<Constructor<T>> cons = new HashSet<Constructor<T>>();
         Constructor<T>[] constructors = (Constructor<T>[]) target.getConstructors();
         for(Constructor<T> constructor : constructors) {
@@ -262,8 +262,8 @@ public class ClassIntrospector<T> {
      * @return the first constructor found that matches the filter parameter.
      * @throws IllegalArgumentException if no constructor is found matching the filter.
      **/
-    public Constructor<T> getConstructor(ConstructorFilter filter) {
-        Set<Constructor<T>> cons = getConstructors(filter);
+    public <T> Constructor<T> getConstructor(ConstructorFilter filter, Class<T> ofType) {
+        Set<Constructor<T>> cons = getConstructors(filter, ofType);
         if(cons.isEmpty()) {
             throw new IllegalArgumentException("No constructor found mathcing filter");
         }
