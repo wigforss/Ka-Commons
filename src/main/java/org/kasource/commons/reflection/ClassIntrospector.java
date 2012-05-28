@@ -59,14 +59,39 @@ public class ClassIntrospector {
      * @param params
      *            Parameter types for the method
      * 
-     * @throws IllegalArgumentException
-     *             if method does not exists or cannot be accessed.
      * 
      * @return Returns the named method from class <i>clazz</i>.
+     * 
+     * @throws IllegalArgumentException if method could not be found or security 
+     * issues occurred when trying to retrieve the method.
      */
     public Method getDeclaredMethod(String name, Class<?>... params) {
         try {
             return target.getDeclaredMethod(name, params);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Could not access method: " + name + " on " + target, e);
+        }
+    }
+    
+    /**
+     * Returns the named public method from class <i>clazz</i> or any of its super classes, does not throw checked exceptions.
+     * 
+     * @param clazz
+     *            The class to inspect
+     * @param name
+     *            The name of the method to get
+     * @param params
+     *            Parameter types for the method
+     * 
+     * 
+     * @return Returns the named method from class <i>clazz</i>.
+     * 
+     * @throws IllegalArgumentException if method could not be found or security 
+     * issues occurred when trying to retrieve the method.
+     */
+    public Method getMethod(String name, Class<?>... params) {
+        try {
+            return target.getMethod(name, params);
         } catch (Exception e) {
             throw new IllegalArgumentException("Could not access method: " + name + " on " + target, e);
         }
