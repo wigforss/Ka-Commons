@@ -239,11 +239,17 @@ public class ClassIntrospector {
      * Returns set of constructors that matches the filter parameter.
      * 
      * @param filter Filter to apply.
+     * @param ofType Class to get constructor for, must match target class.
      * 
      * @return constructors that matches the filter parameter.
+     * 
+     * @throws IllegalArgumentException if ofType does not match the target class.
      **/
     @SuppressWarnings("unchecked")
     public <T> Set<Constructor<T>> getConstructors(ConstructorFilter filter, Class<T> ofType) {
+        if(!ofType.equals(target)) {
+            throw new IllegalArgumentException("ofType must be target class: " + target);
+        }
         Set<Constructor<T>> cons = new HashSet<Constructor<T>>();
         Constructor<T>[] constructors = (Constructor<T>[]) target.getConstructors();
         for(Constructor<T> constructor : constructors) {
@@ -258,11 +264,16 @@ public class ClassIntrospector {
      * Returns the first constructor found that matches the filter parameter.
      * 
      * @param filter Filter to apply.
+     * @param ofType Class to get constructor for, must match target class.
      * 
      * @return the first constructor found that matches the filter parameter.
-     * @throws IllegalArgumentException if no constructor is found matching the filter.
+     * @throws IllegalArgumentException if ofType does not match the target class.
+     * or no constructor is found matching the filter.
      **/
     public <T> Constructor<T> getConstructor(ConstructorFilter filter, Class<T> ofType) {
+        if(!ofType.equals(target)) {
+            throw new IllegalArgumentException("ofType must be target class: " + target);
+        }
         Set<Constructor<T>> cons = getConstructors(filter, ofType);
         if(cons.isEmpty()) {
             throw new IllegalArgumentException("No constructor found mathcing filter");
