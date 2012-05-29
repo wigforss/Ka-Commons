@@ -11,24 +11,24 @@ public class ClassUtilsTest {
 
     
     @Test
-    public void getClassTest() {
-       Class<? extends List> list =  ClassUtils.getClass("java.util.ArrayList", List.class);
+    public void loadClassTest() {
+       Class<? extends List> list =  ClassUtils.loadClass("java.util.ArrayList", List.class);
     }
     
     @Test(expected = IllegalArgumentException.class)
-    public void getClassNotAssingableTest() {
-       Class<? extends List> list =  ClassUtils.getClass("java.lang.Integer", List.class);
+    public void loadClassNotAssingableTest() {
+       Class<? extends List> list =  ClassUtils.loadClass("java.lang.Integer", List.class);
     }
     
     @Test(expected = IllegalArgumentException.class)
-    public void getClassNotFoundTest() {
-       Class<? extends List> list =  ClassUtils.getClass("org.myorg.MyClass", List.class);
+    public void loadClassNotFoundTest() {
+       Class<? extends List> list =  ClassUtils.loadClass("org.myorg.MyClass", List.class);
     }
     
     @Test
-    public void getInterfaceClassTest() {
+    public void loadInterfaceClassTest() {
        
-       Class<? extends EventListener> listener =  ClassUtils.getClass("javax.swing.event.ChangeListener", EventListener.class);
+       Class<? extends EventListener> listener =  ClassUtils.loadClass("javax.swing.event.ChangeListener", EventListener.class);
     }
     
  

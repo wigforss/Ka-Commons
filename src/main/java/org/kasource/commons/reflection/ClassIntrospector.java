@@ -1,15 +1,22 @@
 package org.kasource.commons.reflection;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
+import org.kasource.commons.reflection.filter.MethodFilterBuilder;
 import org.kasource.commons.reflection.filter.classes.ClassFilter;
 import org.kasource.commons.reflection.filter.constructors.ConstructorFilter;
 import org.kasource.commons.reflection.filter.fields.FieldFilter;
 import org.kasource.commons.reflection.filter.methods.MethodFilter;
+import org.kasource.commons.reflection.filter.methods.MethodFilterList;
+import org.kasource.commons.util.reflection.MethodUtils;
 
 /**
  * Class Introspection.
@@ -111,6 +118,53 @@ public class ClassIntrospector {
      **/
     public  Set<Method> getDeclaredMethods(MethodFilter methodFilter) {
         return getDeclaredMethods(target, methodFilter);
+    }
+    
+    /**
+     * Returns true if the supplied annotation is present on the target class
+     * or any of its super classes.
+     * 
+     * @param annotation Annotation to find.
+     * 
+     * @return true if the supplied annotation is present on the target class
+     * or any of its super classes.
+     **/
+    public  boolean isAnnotationPresent(Class<? extends Annotation> annotation) {
+        Class<?> clazz = target;
+        if (clazz.isAnnotationPresent(annotation)) {
+            return true;
+        }
+        while((clazz = clazz.getSuperclass()) != null) {
+            if (clazz.isAnnotationPresent(annotation)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Returns the annotation of the annotationClass of the clazz or any of it super classes.
+     * 
+     * @param clazz
+     *           The class to inspect.
+     * @param annotationClass
+     *           Class of the annotation to return
+     *           
+     * @return The annotation of annnotationClass if found else null.
+     */
+    public  <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
+        Class<?> clazz = target;
+        T annotation = clazz.getAnnotation(annotationClass);
+        if(annotation != null) {
+            return annotation;
+        }
+        while((clazz = clazz.getSuperclass()) != null) {
+            annotation = clazz.getAnnotation(annotationClass);
+            if(annotation != null) {
+                return annotation;
+            }
+        }
+        return null;
     }
     
     /**
@@ -276,7 +330,7 @@ public class ClassIntrospector {
             throw new IllegalArgumentException("ofType must be target class: " + target);
         }
         Set<Constructor<T>> cons = new HashSet<Constructor<T>>();
-        Constructor<T>[] constructors = (Constructor<T>[]) target.getConstructors();
+        Constructor<T>[] constructors = (Constructor<T>[]) target.getDeclaredConstructors();
         for(Constructor<T> constructor : constructors) {
             if(filter.passFilter(constructor)) {
                 cons.add(constructor);
@@ -304,6 +358,29 @@ public class ClassIntrospector {
             throw new IllegalArgumentException("No constructor found mathcing filter");
         }
         return cons.iterator().next();
+    }
+    
+    /**
+     * Returns a map of methods annotated with an annotation from the annotations parameter.
+     * 
+     * @param methodFilter  Filter for methods, may be null to include all annotated methods.
+     * @param annotations   Method annotations to find methods for
+     * 
+     * @return Methods that is annotated with the supplied annotation set.
+     **/
+    public Map<Class<? extends Annotation>, Set<Method>> findAnnotatedMethods(MethodFilter methodFilter, Collection<Class<? extends Annotation>> annotations) {
+        
+        Map<Class<? extends Annotation>, Set<Method>> annotatedMethods = new HashMap<Class<? extends Annotation>, Set<Method>>();
+        for (Class<? extends Annotation> annotation : annotations) { 
+            MethodFilter annotationFilter = new MethodFilterBuilder().annotated(annotation).build();
+            if(methodFilter != null) {
+                annotationFilter = new MethodFilterList(annotationFilter, methodFilter);
+            }
+            Set<Method> methods = getMethods(annotationFilter);
+            annotatedMethods.put(annotation, methods);
+        }
+        
+        return annotatedMethods;
     }
     
 }

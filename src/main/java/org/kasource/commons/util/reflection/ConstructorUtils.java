@@ -1,10 +1,6 @@
 package org.kasource.commons.util.reflection;
 
 import java.lang.reflect.Constructor;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.kasource.commons.reflection.filter.constructors.ConstructorFilter;
 
 /**
  * Utility class for creating object instances using Reflection Based Construction.
@@ -58,41 +54,6 @@ public class ConstructorUtils {
                 }
                 throw new IllegalStateException(errorMessage, e);          
         } 
-    }
-    
-    /**
-     * Returns set of constructors that matches the filter parameter.
-     * 
-     * @param filter Filter to apply.
-     * 
-     * @return constructors that matches the filter parameter.
-     **/
-    @SuppressWarnings("unchecked")
-    public static <T> Set<Constructor<T>> getConstructors(Class<T> clazz, ConstructorFilter filter) {
-        Set<Constructor<T>> cons = new HashSet<Constructor<T>>();
-        Constructor<T>[] constructors = (Constructor<T>[]) clazz.getConstructors();
-        for(Constructor<T> constructor : constructors) {
-            if(filter.passFilter(constructor)) {
-                cons.add(constructor);
-            }
-        }
-        return cons;
-    }
-
-    /**
-     * Returns the first constructor found that matches the filter parameter.
-     * 
-     * @param filter Filter to apply.
-     * 
-     * @return the first constructor found that matches the filter parameter.
-     * @throws IllegalArgumentException if no constructor is found matching the filter.
-     **/
-    public static <T> Constructor<T> getConstructor(Class<T> clazz, ConstructorFilter filter) {
-        Set<Constructor<T>> cons = getConstructors(clazz, filter);
-        if(cons.isEmpty()) {
-            throw new IllegalArgumentException("No constructor found mathcing filter");
-        }
-        return cons.iterator().next();
     }
     
 }
