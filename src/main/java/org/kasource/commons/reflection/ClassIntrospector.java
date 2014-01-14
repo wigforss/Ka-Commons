@@ -180,7 +180,7 @@ public class ClassIntrospector {
      * 
      **/
     private Set<Method> getDeclaredMethods(Class<?> clazz, MethodFilter methodFilter) {
-        Method[] methods = clazz.getDeclaredMethods();
+        Method[] methods = target.getDeclaredMethods();
         Set<Method> matches = new HashSet<Method>();
         for (Method method : methods) {       
             if (methodFilter.passFilter(method)) {
@@ -191,15 +191,13 @@ public class ClassIntrospector {
     }
 
     /**
-     * Returns the methods declared by clazz and any of its super classes, which matches the supplied
+     * Returns the methods declared by the target class and any of its super classes, which matches the supplied
      * methodFilter.
      * 
-     * @param clazz
-     *            The class to inspect
      * @param methodFilter
      *            The method filter to apply.
      * 
-     * @return methods that match the params argument in their method signature
+     * @return methods that match the methodFilter.
      * 
      **/
     public  Set<Method> getMethods(MethodFilter methodFilter) {
@@ -210,16 +208,34 @@ public class ClassIntrospector {
         }
         return matches;
     }
+    
+    /**
+     * Returns the method declared by the target class and any of its super classes, which matches the supplied
+     * methodFilter, if method is found null is returned. If more than one method is found the
+     * first in the resulting set iterator is returned.
+     * 
+     * @param methodFilter
+     *            The method filter to apply.
+     * 
+     * @return method that match the methodFilter or null if no such method was found.
+     * 
+     **/
+    public  Method getMethod(MethodFilter methodFilter) {
+        Set<Method> methods = getMethods(methodFilter);
+        if (!methods.isEmpty()) {
+            return methods.iterator().next();
+        }
+        return null;
+    }
       
     
     /**
-     * Returns a set of interfaces that the from clazz that passes the supplied filter.
+     * Returns a set of interfaces from the target class that passes the supplied filter.
      * This method also inspects any interfaces implemented by super classes.
      * 
-     * @param clazz             The class to inspect
      * @param filter            The class filter to use.
      * 
-     * @return all Interface classes from clazz that passes the filter.
+     * @return a set of interfaces from the target class that passes the supplied filter.
      */
     public  Set<Class<?>> getInterfaces(ClassFilter filter) {
         Class<?> clazz = target;
@@ -230,6 +246,25 @@ public class ClassIntrospector {
         }
         return interfacesFound;
        
+    }
+    
+    /**
+     * Returns the interface from target class that passes the supplied filter.
+     * This method also inspects any interfaces implemented by super classes.
+     * 
+     * If no interface is found null is returned.
+     * 
+     * @param filter  The class filter to use.
+     * 
+     * @return the interface from target class that passes the supplied filter, may 
+     * be null if no match is found.
+     */
+    public  Class<?> getInterface(ClassFilter filter) {
+        Set<Class<?>> interfaces = getInterfaces(filter);
+        if (!interfaces.isEmpty()) {
+            return interfaces.iterator().next();
+        }
+        return null;
     }
 
     
@@ -338,6 +373,25 @@ public class ClassIntrospector {
         }
         return cons;
     }
+    
+    /**
+     * Returns set of constructors that matches the filter parameter.
+     * 
+     * @param filter Filter to apply.
+     * 
+     * @return constructors that matches the filter parameter.
+     **/
+    public Set<Constructor<?>> getConstructors(ConstructorFilter filter) {
+        
+        Set<Constructor<?>> cons = new HashSet<Constructor<?>>();
+        Constructor<?>[] constructors = (Constructor<?>[]) target.getDeclaredConstructors();
+        for(Constructor<?> constructor : constructors) {
+            if(filter.passFilter(constructor)) {
+                cons.add(constructor);
+            }
+        }
+        return cons;
+    }
 
     /**
      * Returns the first constructor found that matches the filter parameter.
@@ -355,7 +409,25 @@ public class ClassIntrospector {
         }
         Set<Constructor<T>> cons = getConstructors(filter, ofType);
         if(cons.isEmpty()) {
-            throw new IllegalArgumentException("No constructor found mathcing filter");
+            throw new IllegalArgumentException("No constructor found mathcing filter " + filter);
+        }
+        return cons.iterator().next();
+    }
+    
+    /**
+     * Returns the first constructor found that matches the filter parameter.
+     * 
+     * @param filter Filter to apply.
+     * @param ofType Class to get constructor for, must match target class.
+     * 
+     * @return the first constructor found that matches the filter parameter.
+     * 
+     * @throws IllegalArgumentException if no constructor is found matching the filter.
+     **/
+    public Constructor<?> getConstructor(ConstructorFilter filter) {
+        Set<Constructor<?>> cons = getConstructors(filter);
+        if(cons.isEmpty()) {
+            throw new IllegalArgumentException("No constructor found mathcing filter " + filter);
         }
         return cons.iterator().next();
     }
